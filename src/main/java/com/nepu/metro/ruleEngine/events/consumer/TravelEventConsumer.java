@@ -70,7 +70,7 @@ public class TravelEventConsumer<T> {
         }
     }
 
-    public class CustomThreadFactory implements ThreadFactory
+    private class CustomThreadFactory implements ThreadFactory
     {
         private String name;
         private int counter = 1;
