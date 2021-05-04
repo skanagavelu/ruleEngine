@@ -6,6 +6,6 @@ Spring boot application responsible for
  3. {@link com.nepu.metro.common.consumer.handler.EventHandler Execute} the business rules, and update the event
  4. {@link com.nepu.metro.common.producer.Producer Push} back to producer for further processing or storing into db.
  
-Application execution begins with TravelEventConsumer,
-Can be started with RuleEngineApplication.
-Rules can be edited at GroovyTravelEventHandler.
+Application execution begins with TravelEventConsumer,<BR>
+Can be started with RuleEngineApplication<BR>
+Rules can be edited at GroovyTravelEventHandler.<BR>
