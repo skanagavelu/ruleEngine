@@ -1,6 +1,6 @@
 # Groovy Rule Engine
 
-This application will update the cost of the travel based on rules associated.
+This application will update the cost of the travel based on rules associated.<BR>
 e.g.) User may be senior citizen and need to add some discount on the base fare.
 
 The system mostly doesn't need reboot for new or updating the existing business rules.
