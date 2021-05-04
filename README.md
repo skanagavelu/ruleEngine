@@ -1,5 +1,7 @@
 # Groovy Rule Engine
 
+The system mostly doesn't need reboot for new or updating the existing business rules.
+
 Spring boot application responsible for
  1. Reading the raw event from {@link com.nepu.metro.common.consumer.Consumer consumer},
  2. {@link com.nepu.metro.common.consumer.handler.Converter Enrich} it for rules execution
@@ -9,3 +11,4 @@ Spring boot application responsible for
 Application execution begins with TravelEventConsumer,<BR>
 Can be started with RuleEngineApplication<BR>
 Rules can be edited at GroovyTravelEventHandler.<BR>
+
