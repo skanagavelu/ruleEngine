@@ -14,4 +14,8 @@ It is a spring boot application responsible for
 Application execution begins with `TravelEventConsumer`,<BR>
 Can be started with `RuleEngineApplication` <BR>
 Rules can be edited at `GroovyTravelEventHandler`.<BR>
-
+ 
+ 
+Tests: 
+GroovyTravelEventHandlerFareCappingTest
+GroovyTravelEventHandlerPeakTimeTest 
