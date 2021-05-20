@@ -28,7 +28,7 @@ public class TravelEventConsumer<T> {
     @Autowired
     private EventHandler<T, T> handler;
 
-    @Value("${consumer.workers.count:2}")
+    @Value("${consumer.workers.count:1}")
     private int corePoolSize;
 
     private ThreadPoolExecutor executor;
@@ -65,6 +65,12 @@ public class TravelEventConsumer<T> {
 
                     T event = consumer.next();
                     handler.handle(event);
+                    try {
+                        // Delay frequent prints
+                        Thread.sleep(4000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }

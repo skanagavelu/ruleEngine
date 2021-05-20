@@ -1,40 +1,32 @@
 package com.nepu.metro.ruleEngine.events.handler;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
-import java.util.function.Predicate;
-
 import com.nepu.metro.common.consumer.handler.EventHandlerBase;
 import com.nepu.metro.common.controller.utils.GroovyEventMessage;
 import com.nepu.metro.common.producer.Producer;
 import com.nepu.metro.ruleEngine.events.model.TravelEvent;
-import com.nepu.metro.ruleEngine.rules.GroovyRule;
 import com.nepu.metro.ruleEngine.rules.Rule;
-import com.nepu.metro.ruleEngine.rules.RuleScript;
+import com.nepu.metro.ruleEngine.rules.GroovyRulesUtils;
+import com.nepu.metro.ruleEngine.rules.RulesContainer;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Predicate;
+
 @Configuration
 public class GroovyTravelEventHandler extends EventHandlerBase<TravelEvent, TravelEvent>  {
 
     @Autowired
-    Producer<TravelEvent> producer;
+    public Producer<TravelEvent> producer;
 
-    //TODO Read from DB via cache
-    List<? extends Rule<GroovyEventMessage>> rules = Arrays.asList(
+    @Autowired
+    public RulesContainer rulesContainer;
 
-            //Senior citizen rule: 5 rupees discount
-            new GroovyRule(new RuleScript("return ((int)event.meta.get(\"age\")) > 60",
-                                          "event.cost = event.cost - 5; return true")),
-
-            //Concession for women: 5 rupees discount
-            new GroovyRule(new RuleScript("return ((String)event.meta.get(\"sex\")) == \"F\"",
-                                          "event.cost = event.cost - 5; return true;"))
-            );
+    @Autowired
+    public GroovyRulesUtils utils;
 
     public GroovyTravelEventHandler(Function<TravelEvent, TravelEvent> converter) {
 
@@ -47,11 +39,12 @@ public class GroovyTravelEventHandler extends EventHandlerBase<TravelEvent, Trav
         final TravelEvent event = converter.apply(rawInput);
         Binding binding = new Binding();
         binding.setVariable("event", event);
+        binding.setVariable("utils", utils);
         GroovyShell shell = new GroovyShell(binding);
         GroovyEventMessage message = new GroovyEventMessage(event, shell);
 
         //Chain of responsibility: Rules execution
-        Optional<? extends Rule<GroovyEventMessage>> skipRule = rules.stream()
+        Optional<? extends Rule<GroovyEventMessage>> skipRule = rulesContainer.getRules().stream()
                                                 .filter(rule -> rule.preCondition(message))
                                                 .filter(Predicate.not(rule -> rule.action(message)))
                                                 .findFirst();

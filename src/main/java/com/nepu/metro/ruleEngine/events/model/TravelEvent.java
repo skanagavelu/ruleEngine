@@ -18,9 +18,9 @@ public class TravelEvent implements Serializable {
     public String id = UUID.randomUUID().toString();
     public String userId = UUID.randomUUID().toString();
     public String cardId = UUID.randomUUID().toString();
-    public Zone from = new Zone(UUID.randomUUID().toString(), "Zone_1");
-    public Zone to = new Zone(UUID.randomUUID().toString(), "Zone_2");
-    public double cost = 20; //Base fare from Zone_1 to Zone_2
+    public Zone from = new Zone("Zone_1");
+    public Zone to = new Zone("Zone_2");
+    public double cost = 35; //Base fare from Zone_1 to Zone_2
     public Date enteredAt;
     public Date exitedAt;
     public transient Map<String, Object> meta = new HashMap<>();
